@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -50,35 +51,38 @@ public class Controller {
 
   private void savesection() {
     model.setsection(view.getsectionTextfield().getText());
-    MongoClient mongoClient=new MongoClient("localhost",27017);
+    MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://admin:admin@cluster0.jfrg2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"));
     MongoDatabase db = mongoClient.getDatabase("EmployeeDB");
 	MongoCollection<Document> collection=db.getCollection("employee database");
     collection.updateOne(Filters.eq("empid",model.getSRN()), Updates.set("Salary", model.getsection()));
     JOptionPane.showMessageDialog(null, "Salary saved : " + model.getsection(), "Info",
         JOptionPane.INFORMATION_MESSAGE);
+    mongoClient.close();
 
     // TODO Auto-generated method stub
   }
 
   private void saveFirstname() {
     model.setFirstname(view.getFirstnameTextfield().getText());
-    MongoClient mongoClient=new MongoClient("localhost",27017);
+    MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://admin:admin@cluster0.jfrg2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"));
     MongoDatabase db = mongoClient.getDatabase("EmployeeDB");
 	MongoCollection<Document> collection=db.getCollection("employee database");
     collection.updateOne(Filters.eq("empid",model.getSRN()), Updates.set("name",model.getFirstname()));
     JOptionPane.showMessageDialog(null, "Employee Name saved : " + model.getFirstname(), "Info",
         JOptionPane.INFORMATION_MESSAGE);
+    mongoClient.close();
   }
 
   private void saveLastname() {
     model.setLastname(view.getLastnameTextfield().getText());
-    MongoClient mongoClient=new MongoClient("localhost",27017);
+    MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://admin:admin@cluster0.jfrg2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"));
     MongoDatabase db = mongoClient.getDatabase("EmployeeDB");
 	MongoCollection<Document> collection=db.getCollection("employee database");
     collection.updateOne(Filters.eq("empid",model.getSRN()), Updates.set("Designation",model.getLastname()));
     
     JOptionPane.showMessageDialog(null, "Designation Saved : " + model.getLastname(), "Info",
         JOptionPane.INFORMATION_MESSAGE);
+    mongoClient.close();
   }
 
   private void sayHello() {
@@ -86,7 +90,7 @@ public class Controller {
 	  model.setsection(view.getsectionTextfield().getText());
 	  model.setFirstname(view.getFirstnameTextfield().getText());
 	  model.setLastname(view.getLastnameTextfield().getText());
-	   MongoClient mongoClient=new MongoClient("localhost",27017);
+	   MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://admin:admin@cluster0.jfrg2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"));
 		
 		MongoDatabase db = mongoClient.getDatabase("EmployeeDB");
 		MongoCollection<Document> collection=db.getCollection("employee database");
@@ -109,7 +113,8 @@ public class Controller {
 		
 		
     JOptionPane.showMessageDialog(null, "Hello " + model.getFirstname() +"\n"+"Your details are succesfully saved \n"+"emp id : "+model.getSRN()+"\nDesignation : "+model.getLastname()+"\nSalary : "+model.getsection() , "Details Saved",
-        JOptionPane.INFORMATION_MESSAGE);   
+        JOptionPane.INFORMATION_MESSAGE); 
+    mongoClient.close();
   }
 
   // private void sayBye() {
@@ -123,7 +128,7 @@ public class Controller {
   }
   private void search() {
 	  model.setSearch(view.getsearchTextField().getText());
-	  MongoClient mongoClient=new MongoClient("localhost",27017);
+	  MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://admin:admin@cluster0.jfrg2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"));
 	 MongoDatabase db = mongoClient.getDatabase("EmployeeDB");
 	MongoCollection<Document> collection=db.getCollection("employee database");
 	Document d=collection.find(eq("empid",model.getSearch())).first();
@@ -134,10 +139,11 @@ public class Controller {
 	}
 	else {
 		
-		  JOptionPane.showMessageDialog(null, d , "deatils",
+		  JOptionPane.showMessageDialog(null, d , "details",
 			        JOptionPane.INFORMATION_MESSAGE);
 		
 	}
+	mongoClient.close();
 	  
 	  
 	  
